@@ -278,10 +278,11 @@ endfunction()
 
 function(llvmir_extract_lang_flags out_lang_flags lang)
   set(lang_flags "")
-
-  set(lang_flags ${CMAKE_${lang}_FLAGS_${CMAKE_BUILD_TYPE}})
+  string(TOUPPER "${CMAKE_BUILD_TYPE}" CMAKE_BUILD_TYPE_UPPER)
+  set(lang_flags ${CMAKE_${lang}_FLAGS_${CMAKE_BUILD_TYPE_UPPER}})
   set(lang_flags "${lang_flags} ${CMAKE_${lang}_FLAGS}")
 
+  string(STRIP lang_flags ${lang_flags})
   string(REPLACE "\ " ";" lang_flags ${lang_flags})
 
   debug("@llvmir_extract_lang_flags ${lang}: ${lang_flags}")
