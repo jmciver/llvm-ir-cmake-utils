@@ -109,7 +109,7 @@ function(llvmir_attach_bc_target)
   llvmir_extract_compile_flags(IN_COMPILE_FLAGS ${DEPENDS_TRGT})
 
   # compile lang flags
-  llvmir_extract_lang_flags(IN_LANG_FLAGS ${LINKER_LANGUAGE})
+  llvmir_extract_lang_flags(IN_LANG_FLAGS ${LINKER_LANGUAGE} "C")
 
   ## main operations
   foreach(IN_FILE ${IN_FILES})
@@ -131,6 +131,8 @@ function(llvmir_attach_bc_target)
     catuniq(CURRENT_COMPILE_FLAGS ${IN_COMPILE_FLAGS} ${IN_FILE_COMPILE_FLAGS})
     debug("@llvmir_attach_bc_target ${DEPENDS_TRGT} compile flags: \
     ${CURRENT_COMPILE_FLAGS}")
+
+    string(REPLACE " " ";" CURRENT_COMPILE_FLAGS "${CURRENT_COMPILE_FLAGS}")
 
     set(CMD_ARGS "-emit-llvm" ${IN_STANDARD_FLAGS} ${IN_LANG_FLAGS}
       ${IN_COMPILE_OPTIONS} ${CURRENT_COMPILE_FLAGS} ${CURRENT_DEFS}
